@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>翻牌遊戲</title>
+    <link rel="stylesheet" href="./css/bootstrap.css">
+    <style>
+        body {
+            font-family: var(--font-family-sans-serif), 'Microsoft JhengHei';
+        }
+        .bg-black {
+            background-color: #000 !important;
+        }
+        .object-fit {
+            object-fit: contain;
+        }
+
+        .card {
+            width: 90px;
+            height: 140px;
+            /* 設定子元素在 3D 空間內 */
+            transform-style: preserve-3d;
+            position: relative;
+            transition: transform 0.5s;
+            float: left;
+            margin: 10px;
+        }
+
+        .open {
+            transform: rotateY(180deg);
+        }
+
+        .front {
+            width: 100%;
+            height: 100%;
+            background-image: url(./card/Red_back.jpg);
+            background-position: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+            position: absolute;
+        }
+
+        .back {
+            width: 100%;
+            height: 100%;
+            background-position: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+            position: absolute;
+            transform: rotateY(180deg);
+        }
+
+    </style>
+</head>
+<body class="bg-black overflow-hidden">
+    <div id="openGame" class="vw-100 vh-100">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 my-4">
+                    <img src="./pocono_cards/toppng.com-gold-decoration-8000x1709.png" class="img-fluid object-fit" alt="gold-decoration" title="gold-decoration">
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-2">
+                    <img src="./pocono_cards/back.svg" class="img-fluid object-fit" alt="card" title="card">
+                </div>
+                <div class="col-2">
+                    <img src="./pocono_cards/back.svg" class="img-fluid object-fit" alt="card" title="card">
+                </div>
+                <div class="col-2">
+                    <img src="./pocono_cards/back.svg" class="img-fluid object-fit" alt="card" title="card">
+                </div>
+                <div class="col-2">
+                    <img src="./pocono_cards/back.svg" class="img-fluid object-fit" alt="card" title="card">
+                </div>
+                <div class="col-2">
+                    <img src="./pocono_cards/back.svg" class="img-fluid object-fit" alt="card" title="card">
+                </div>
+                <div class="col-2">
+                    <img src="./pocono_cards/back.svg" class="img-fluid object-fit" alt="card" title="card">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 mt-4 h3 text-light text-center">
+                    <p>翻開兩張相同數字的撲克牌，可消除一組撲克牌。</p>
+                    <p>消除所有撲克牌即可通關。</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <button type="button" id="startBtn" class="h1 btn-lg btn-light">開始遊戲</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="game" class="vw-100 vh-100">
+        <div id="gamefield">
+        </div>
+        <!-- <div id="gametxt">
+            <div class="h3 text-center text-light">
+                剩餘<span id="timer">0</span>秒
+            </div>
+        </div> -->
+    </div>
+
+<script src="./js/jquery-3.4.1.min.js"></script>
+<script>
+$(function(){
+    $('#openGame').hide()
+    $('#game').show()
+
+    // 產生16張牌
+    for(let i=0;i<16;i++){
+        $('#gamefield').append(`<div class="card">
+        <div class="front"></div>
+        <div class="back"></div>
+        </div>`)
+    }
+
+    // 按下後執行遊戲
+    $('#startBtn').on('click',function(){
+        // $(this).attr('disabled',true)
+        $('#openGame').hide()
+        $('#game').show()
+        gameStart()
+    })
+
+    // 遊戲函式
+    let gameStart=()=>{
+        // 清除屬性
+        $('.card').removeAttr('style data-card').removeClass('clear open')
+
+        // 每個數字要有兩個，16張牌要有8組數字
+        // i/8的餘數來判斷要加哪張(牌號從1開始，故+1)
+        for(let i=0;i<$('.card').length;i++){
+            let add=i%($('.card').length/2)+1
+            $('.card').eq(i).find('.back').css('background-image',`url(./card/${add}S.jpg)`)
+            $('.card').eq(i).attr('data-card',add)
+
+            // 洗牌，隨機取一張牌，放在目前的牌後方
+            let target=Math.floor(Math.random()*$('.card').length)
+            $('.card').eq(target).insertAfter($('.card').eq(i))
+        }
+
+        // 倒數計時
+        let sec=3
+        let timer=setInterval(() => {
+            $('#timer').text(sec)
+            sec--
+            // 如果翻牌全部 clear
+            if(sec!=0 && $('.clear').length==$('.card').length){
+                clearInterval(timer)
+                setTimeout(() => {
+                    alert('過關了！')
+                    // $('#startBtn').attr('disabled',false)
+                },100)
+            }else if(sec==-1 && $('.clear').length!=$('.card').length){
+                setTimeout(() => {
+                    clearInterval(timer)
+                    alert('時間到，沒有通關！')
+                    // $('#startBtn').attr('disabled',false)
+                    $('.card').removeAttr('style data-card').removeClass('clear open')
+                },0)
+            }
+        }, 1000)
+        
+        // 翻牌
+        $('.card').on('click',function(){
+        // 只能翻兩張，而且這張還沒翻開
+        if($('.open').length<2 && !$(this).hasClass('open')){
+            $(this).addClass('open')
+        }
+
+        // 翻開兩張後
+        if($('.open').length==2){
+            // 一秒後翻回
+            setTimeout(()=>{
+                $('.open').removeClass('open')
+            },1000)
+
+            // 如果兩張一樣就淡出
+            if($('.open').eq(0).attr('data-card')==$('.open').eq(1).attr('data-card')){
+                $('.open').fadeTo(500, 0).addClass('clear')
+                $('#startBtn').attr('disabled',true)
+                setTimeout(()=>{
+                    $('#startBtn').attr('disabled',false)
+                },4000)
+            }
+        }
+        })
+    }
+
+})
+
+</script>
+</body>
+</html>

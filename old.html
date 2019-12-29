@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+<style>
+body {
+    margin: 0;
+    font-family: Verdana, Microsoft JhengHei;
+    text-align: center;
+    /* color: white; */
+}
+#game {
+    background: brown;
+    width: calc(64em + 8em);
+    height: calc(20em + 2em);
+
+    position: absolute;
+    top: calc(50% - 11em);
+    left: calc(50% - 36em);
+}
+.card {
+    background: black;
+    width: 8em;
+    height: 10em;
+    /* 設定子元素在3D空間 */
+    transform-style: preserve-3d;
+    position: relative;
+    transition: 0.5s;
+
+    float: left;
+    margin: 0.5em;
+}
+.open {
+    transform: rotateY(180deg);
+}
+.front {
+    width: 100%;
+    height: 100%;
+    background-image: url("./card/Yellow_back.jpg");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    position: absolute;
+}
+.back {
+    width: 100%;
+    height: 100%;
+    background-image: url("./card/1H.jpg");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    position: absolute;
+    transform: rotateY(180deg);
+}
+#start {
+    display: none;
+    width:100%;
+    height:100vh;
+    background: rgb(0,0,0,0.9);
+    overflow: hidden;
+
+    position: absolute;
+    top:0;
+    left: 0;
+    z-index: 99;
+
+    font-size: 2em;
+}
+</style>
+</head>
+<body>
+    <div id="start">
+        <h1>遊戲規則：</h1>
+        <p>翻開兩張相同數字的撲克牌，可消除一組撲克牌。</p>
+        <p>消除所有撲克牌即可通關。</p>
+    </div>
+
+    <div id="game"></div>
+    <input type="button" id="startBtn" value="開始遊戲">
+    <p>剩餘<span id="timer">0</span>秒</p>
+
+<script src="./js/jquery-3.4.1.min.js"></script>
+<script>
+$(function(){
+// 顯示遊戲規則
+// $('#start').show()
+
+// 產生16張牌
+for(let i=0;i<2;i++){
+    $('#game').append(`<div class="card">
+    <div class="front"></div>
+    <div class="back"></div>
+    </div>`)
+}
+
+// 按下後執行遊戲
+$('#startBtn').on('click',function(){
+    $(this).attr('disabled',true)
+    gameStart()
+})
+
+// 遊戲函式
+let gameStart=()=>{
+    // 清除屬性
+    $('.card').removeAttr('style data-card').removeClass('clear open')
+
+    // 每個數字要有兩個，16張牌要有8組數字
+    // i/8的餘數來判斷要加哪張(牌號從1開始，故+1)
+    for(let i=0;i<$('.card').length;i++){
+        let add=i%($('.card').length/2)+1
+        $('.card').eq(i).find('.back').css('background-image',`url(./card/${add}S.jpg)`)
+        $('.card').eq(i).attr('data-card',add)
+
+        // 洗牌，隨機取一張牌，放在目前的牌後方
+        let target=Math.floor(Math.random()*$('.card').length)
+        $('.card').eq(target).insertAfter($('.card').eq(i))
+    }
+
+    // 倒數計時
+    let sec=3
+    let timer=setInterval(() => {
+        $('#timer').text(sec)
+        sec--
+        // 如果翻牌全部 clear
+        if(sec!=0 && $('.clear').length==$('.card').length){
+            clearInterval(timer)
+            setTimeout(() => {
+                alert('過關了！')
+                $('#startBtn').attr('disabled',false)
+            },100)
+        }else if(sec==-1 && $('.clear').length!=$('.card').length){
+            setTimeout(() => {
+                clearInterval(timer)
+                alert('時間到，沒有通關！')
+                $('#startBtn').attr('disabled',false)
+                $('.card').removeAttr('style data-card').removeClass('clear open')
+            },0)
+        }
+    }, 1000)
+    
+    // 翻牌
+    $('.card').on('click',function(){
+    // 只能翻兩張，而且這張還沒翻開
+    if($('.open').length<2 && !$(this).hasClass('open')){
+        $(this).addClass('open')
+    }
+
+    // 翻開兩張後
+    if($('.open').length==2){
+        // 一秒後翻回
+        setTimeout(()=>{
+            $('.open').removeClass('open')
+        },1000)
+
+        // 如果兩張一樣就淡出
+        if($('.open').eq(0).attr('data-card')==$('.open').eq(1).attr('data-card')){
+            $('.open').fadeTo(500, 0).addClass('clear')
+            $('#startBtn').attr('disabled',true)
+            setTimeout(()=>{
+                $('#startBtn').attr('disabled',false)
+            },4000)
+        }
+    }
+    })
+}
+
+})
+
+</script>
+</body>
+</html>
