@@ -10,22 +10,70 @@
         body {
             font-family: var(--font-family-sans-serif), 'Microsoft JhengHei';
         }
+        .h-35 {
+            height: 35% !important;
+        }
         .bg-black {
             background-color: #000 !important;
         }
         .object-fit {
             object-fit: contain;
         }
+        .input-group > .form-control:not(:last-child),
+        .input-group > .custom-select:not(:last-child) {
+            border-top-right-radius: 0.3rem;
+            border-bottom-right-radius: 0.3rem;
+        }
 
         .card {
-            width: 90px;
-            height: 140px;
+            background: transparent;
+            width: 8em;
+            height: 10em;
             /* 設定子元素在 3D 空間內 */
             transform-style: preserve-3d;
             position: relative;
             transition: transform 0.5s;
             float: left;
             margin: 10px;
+        }
+
+        @media (min-width: 300px) {
+            .card {
+                width: 3em;
+                height: 5em;
+            }
+            #joker{
+                height: 150px;
+                transform: rotate(45deg);
+            }
+        }
+        @media (min-width: 350px) {
+            .card {
+                width: 4em;
+                height: 6em;
+            }
+        }
+        @media (min-width: 400px) {
+            .card {
+                width: 5em;
+                height: 7em;
+            }
+        }
+        @media (min-width: 768px) {
+            .card {
+                width: 7em;
+                height: 9em;
+            }
+            #joker{
+                height: 250px;
+                transform: rotate(45deg);
+            }
+        }
+        @media (min-width: 992px) {
+            .card {
+                width: 8em;
+                height: 10em;
+            }
         }
 
         .open {
@@ -35,7 +83,7 @@
         .front {
             width: 100%;
             height: 100%;
-            background-image: url(./card/Red_back.jpg);
+            background-image: url(./pocono_cards/back.svg);
             background-position: center;
             background-size: contain;
             background-repeat: no-repeat;
@@ -84,52 +132,152 @@
             </div>
             <div class="row">
                 <div class="col-12 mt-4 h3 text-light text-center">
-                    <p>翻開兩張相同數字的撲克牌，可消除一組撲克牌。</p>
+                    <p>翻開兩張<b>相同數字</b>的撲克牌，可消除一組撲克牌。</p>
                     <p>消除所有撲克牌即可通關。</p>
+                    <p>遊戲時間為 50 秒。</p>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-12 text-center">
-                    <button type="button" id="startBtn" class="h1 btn-lg btn-light">開始遊戲</button>
+            <div class="row justify-content-center">
+                <div class="col-12 col-sm-10 col-md-6 col-lg-6">
+                    <div class="input-group input-group-lg">
+                        <select class="custom-select" id="level">
+                            <option selected>請選擇難度...</option>
+                            <option value="1">簡單</option>
+                            <option value="2">普通</option>
+                            <option value="3">困難</option>
+                        </select>
+                        <button id="startBtn" class="ml-3 btn-lg">開始遊戲</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <div id="game" class="vw-100 vh-100">
-        <div id="gamefield">
+        <div id="gamefield" class="w-100 float-left">
         </div>
-        <!-- <div id="gametxt">
+        <div id="gametxt" class="my-5 w-100 float-left">
             <div class="h3 text-center text-light">
                 剩餘<span id="timer">0</span>秒
             </div>
-        </div> -->
+        </div>
+    </div>
+
+    <div id="pass" class="vw-100 vh-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <img src="./pocono_cards/toppng.com-gold-decoration-8000x1709.png" class="my-4 img-fluid object-fit" alt="gold-decoration" title="gold-decoration">    
+                </div>
+                <div class="col-12 d-flex justify-content-center">
+                    <img src="./pocono_cards/7b3d352f4c32c41b5cc258639ad186c6_original.png" class="img-fluid object-fit" alt="chips" title="chips">    
+                </div>
+                <div class="col-12">
+                    <div class="my-4 h3 text-center text-light">
+                        恭喜！過關了！
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="h3 text-center">
+                        <button type="button" id="playAgain1" class="my-4 btn-lg btn-light">重玩一次</button>
+                        <button type="button" id="over1" class="my-4 btn-lg btn-light">結束遊戲</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="nopass" class="vw-100 vh-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <img src="./pocono_cards/toppng.com-gold-decoration-8000x1709.png" class="my-4 img-fluid object-fit" alt="gold-decoration" title="gold-decoration">
+                </div>    
+                <div class="col-12 my-5 d-flex justify-content-center">
+                    <img src="./pocono_cards/0971d8b7d05039c24ec187d6a77687e5_original.jpg" class="img-fluid object-fit" id="joker" alt="joker" title="joker">    
+                    <img src="./pocono_cards/0971d8b7d05039c24ec187d6a77687e5_original.jpg" class="img-fluid object-fit" id="joker" alt="joker" title="joker">    
+                    <img src="./pocono_cards/0971d8b7d05039c24ec187d6a77687e5_original.jpg" class="img-fluid object-fit" id="joker" alt="joker" title="joker">    
+                </div>
+                <div class="col-12">
+                    <div class="mt-4 h3 text-center text-light">
+                        時間到！沒有通關！
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="h3 text-center mt-4">
+                        <button type="button" id="playAgain2" class="btn-lg btn-light">重玩一次</button>
+                        <button type="button" id="over2" class="btn-lg btn-light">結束遊戲</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 <script src="./js/jquery-3.4.1.min.js"></script>
+<script src="./js/jquery.cookie.js"></script>
 <script>
 $(function(){
-    $('#openGame').hide()
-    $('#game').show()
+    $('#openGame').show()
+    $('#game').hide()
+    $('#pass').hide()
+    $('#nopass').hide()
 
-    // 產生16張牌
-    for(let i=0;i<16;i++){
-        $('#gamefield').append(`<div class="card">
-        <div class="front"></div>
-        <div class="back"></div>
-        </div>`)
-    }
+    // 按下後結束遊戲
+    $('#over1, #over2').on('click',function(){
+        $.cookie('level', null)
+        $('#openGame').show()
+        $('#game').hide()
+        $('#pass').hide()
+        $('#nopass').hide()
+        $('#level').val('請選擇難度...')
+    })
 
     // 按下後執行遊戲
     $('#startBtn').on('click',function(){
         // $(this).attr('disabled',true)
+        switch($('#level').val()) {
+            case "請選擇難度...":
+            $.cookie('level', 12)
+            break;
+            case "1":
+            $.cookie('level', 8)
+            break;
+            case "2":
+            $.cookie('level', 12)
+            break;
+            case "3":
+            $.cookie('level', 16)
+            break;
+        }
         $('#openGame').hide()
-        $('#game').show()
-        gameStart()
+        $('#pass').hide()
+        $('#nopass').hide()
+        gameStart($.cookie('level'))
+    })
+
+    // 按下後重新執行遊戲
+    $('#playAgain1, #playAgain2').on('click',function(){
+        $('#openGame').hide()
+        $('#pass').hide()
+        $('#nopass').hide()
+        gameStart($.cookie('level'))
+        // console.log($.cookie('level'))
     })
 
     // 遊戲函式
-    let gameStart=()=>{
+    function gameStart(level) {
+
+        // 產生16張牌
+        $('#gamefield').empty()
+        for(let i=0;i<level;i++){
+            $('#gamefield').append(`<div class="card">
+            <div class="front"></div>
+            <div class="back"></div>
+            </div>`)
+        }
+
+        $('#game').show()
+        
         // 清除屬性
         $('.card').removeAttr('style data-card').removeClass('clear open')
 
@@ -137,7 +285,7 @@ $(function(){
         // i/8的餘數來判斷要加哪張(牌號從1開始，故+1)
         for(let i=0;i<$('.card').length;i++){
             let add=i%($('.card').length/2)+1
-            $('.card').eq(i).find('.back').css('background-image',`url(./card/${add}S.jpg)`)
+            $('.card').eq(i).find('.back').css('background-image',`url(./pocono_cards/${add}S.svg)`)
             $('.card').eq(i).attr('data-card',add)
 
             // 洗牌，隨機取一張牌，放在目前的牌後方
@@ -146,21 +294,26 @@ $(function(){
         }
 
         // 倒數計時
-        let sec=3
+        let sec=50
+        $('#timer').text(sec)
         let timer=setInterval(() => {
-            $('#timer').text(sec)
             sec--
+            $('#timer').text(sec)
             // 如果翻牌全部 clear
             if(sec!=0 && $('.clear').length==$('.card').length){
                 clearInterval(timer)
                 setTimeout(() => {
-                    alert('過關了！')
+                    alert('遊戲結束！')
+                    $('#game').hide()
+                    $('#pass').show()
                     // $('#startBtn').attr('disabled',false)
                 },100)
-            }else if(sec==-1 && $('.clear').length!=$('.card').length){
+            }else if(sec==0 && $('.clear').length!=$('.card').length){
                 setTimeout(() => {
                     clearInterval(timer)
-                    alert('時間到，沒有通關！')
+                    alert('遊戲結束！')
+                    $('#game').hide()
+                    $('#nopass').show()
                     // $('#startBtn').attr('disabled',false)
                     $('.card').removeAttr('style data-card').removeClass('clear open')
                 },0)
@@ -169,27 +322,27 @@ $(function(){
         
         // 翻牌
         $('.card').on('click',function(){
-        // 只能翻兩張，而且這張還沒翻開
-        if($('.open').length<2 && !$(this).hasClass('open')){
-            $(this).addClass('open')
-        }
-
-        // 翻開兩張後
-        if($('.open').length==2){
-            // 一秒後翻回
-            setTimeout(()=>{
-                $('.open').removeClass('open')
-            },1000)
-
-            // 如果兩張一樣就淡出
-            if($('.open').eq(0).attr('data-card')==$('.open').eq(1).attr('data-card')){
-                $('.open').fadeTo(500, 0).addClass('clear')
-                $('#startBtn').attr('disabled',true)
-                setTimeout(()=>{
-                    $('#startBtn').attr('disabled',false)
-                },4000)
+            // 只能翻兩張，而且這張還沒翻開
+            if($('.open').length<2 && !$(this).hasClass('open')){
+                $(this).addClass('open')
             }
-        }
+
+            // 翻開兩張後
+            if($('.open').length==2){
+                // 一秒後翻回
+                setTimeout(()=>{
+                    $('.open').removeClass('open')
+                },1000)
+
+                // 如果兩張一樣就淡出
+                if($('.open').eq(0).attr('data-card')==$('.open').eq(1).attr('data-card')){
+                    $('.open').fadeTo(1000, 0).addClass('clear')
+                    // $('#startBtn').attr('disabled',true)
+                    // setTimeout(()=>{
+                    //     $('#startBtn').attr('disabled',false)
+                    // },4000)
+                }
+            }
         })
     }
 
