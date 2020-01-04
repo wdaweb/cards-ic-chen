@@ -24,6 +24,9 @@
             border-top-right-radius: 0.3rem;
             border-bottom-right-radius: 0.3rem;
         }
+        #nopass {
+            box-sizing: unset;
+        }
 
         .card {
             background: transparent;
@@ -42,7 +45,7 @@
                 width: 3em;
                 height: 5em;
             }
-            #joker{
+            .joker{
                 height: 150px;
                 transform: rotate(45deg);
             }
@@ -103,30 +106,30 @@
     </style>
 </head>
 <body class="bg-black overflow-hidden">
-    <div id="openGame" class="vw-100 vh-100">
+    <div id="openGame" class="w-100 h-100">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-12 my-4">
-                    <img src="./pocono_cards/toppng.com-gold-decoration-8000x1709.png" class="img-fluid object-fit" alt="gold-decoration" title="gold-decoration">
+                <div class="col-12 col-sm-10 col-md-8 my-4">
+                    <img src="./pocono_cards/toppng.com-gold-decoration-8000x1709.png" class="img-fluid object-fit" id="gold-decoration" alt="gold-decoration" title="gold-decoration">
                 </div>
             </div>
             <div class="row justify-content-center">
-                <div class="col-2">
+                <div class="col-2 col-sm-2 col-md-2 col-lg-1">
                     <img src="./pocono_cards/back.svg" class="img-fluid object-fit" alt="card" title="card">
                 </div>
-                <div class="col-2">
+                <div class="col-2 col-sm-2 col-md-2 col-lg-1">
                     <img src="./pocono_cards/back.svg" class="img-fluid object-fit" alt="card" title="card">
                 </div>
-                <div class="col-2">
+                <div class="col-2 col-sm-2 col-md-2 col-lg-1">
                     <img src="./pocono_cards/back.svg" class="img-fluid object-fit" alt="card" title="card">
                 </div>
-                <div class="col-2">
+                <div class="col-2 col-sm-2 col-md-2 col-lg-1">
                     <img src="./pocono_cards/back.svg" class="img-fluid object-fit" alt="card" title="card">
                 </div>
-                <div class="col-2">
+                <div class="col-2 col-sm-2 col-md-2 col-lg-1">
                     <img src="./pocono_cards/back.svg" class="img-fluid object-fit" alt="card" title="card">
                 </div>
-                <div class="col-2">
+                <div class="col-2 col-sm-2 col-md-2 col-lg-1">
                     <img src="./pocono_cards/back.svg" class="img-fluid object-fit" alt="card" title="card">
                 </div>
             </div>
@@ -165,18 +168,24 @@
 
     <div id="pass" class="vw-100 vh-100">
         <div class="container">
-            <div class="row">
-                <div class="col-12">
+            <div class="row justify-content-center">
+                <div class="col-12 col-sm-10 col-md-8 col-lg-6 my-4">
                     <img src="./pocono_cards/toppng.com-gold-decoration-8000x1709.png" class="my-4 img-fluid object-fit" alt="gold-decoration" title="gold-decoration">    
                 </div>
-                <div class="col-12 d-flex justify-content-center">
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-12 col-sm-9 col-md-4 col-lg-3">
                     <img src="./pocono_cards/7b3d352f4c32c41b5cc258639ad186c6_original.png" class="img-fluid object-fit" alt="chips" title="chips">    
                 </div>
+            </div>
+            <div class="row justify-content-center">
                 <div class="col-12">
                     <div class="my-4 h3 text-center text-light">
                         恭喜！過關了！
                     </div>
                 </div>
+            </div>
+            <div class="row justify-content-center">
                 <div class="col-12">
                     <div class="h3 text-center">
                         <button type="button" id="playAgain1" class="my-4 btn-lg btn-light">重玩一次</button>
@@ -189,20 +198,30 @@
 
     <div id="nopass" class="vw-100 vh-100">
         <div class="container">
-            <div class="row">
-                <div class="col-12">
+            <div class="row justify-content-center">
+                <div class="col-12 col-sm-10 col-md-8">
                     <img src="./pocono_cards/toppng.com-gold-decoration-8000x1709.png" class="my-4 img-fluid object-fit" alt="gold-decoration" title="gold-decoration">
-                </div>    
-                <div class="col-12 my-5 d-flex justify-content-center">
-                    <img src="./pocono_cards/0971d8b7d05039c24ec187d6a77687e5_original.jpg" class="img-fluid object-fit" id="joker" alt="joker" title="joker">    
-                    <img src="./pocono_cards/0971d8b7d05039c24ec187d6a77687e5_original.jpg" class="img-fluid object-fit" id="joker" alt="joker" title="joker">    
-                    <img src="./pocono_cards/0971d8b7d05039c24ec187d6a77687e5_original.jpg" class="img-fluid object-fit" id="joker" alt="joker" title="joker">    
                 </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-4 col-sm-3 col-md-2">
+                    <img src="./pocono_cards/0971d8b7d05039c24ec187d6a77687e5_original.jpg" class="img-fluid object-fit joker" alt="joker" title="joker">
+                </div>
+                <div class="col-4 col-sm-3 col-md-2">
+                    <img src="./pocono_cards/0971d8b7d05039c24ec187d6a77687e5_original.jpg" class="img-fluid object-fit joker" alt="joker" title="joker">
+                </div>
+                <div class="col-4 col-sm-3 col-md-2">
+                    <img src="./pocono_cards/0971d8b7d05039c24ec187d6a77687e5_original.jpg" class="img-fluid object-fit joker" alt="joker" title="joker">    
+                </div>
+            </div>
+            <div class="row justify-content-center">    
                 <div class="col-12">
-                    <div class="mt-4 h3 text-center text-light">
+                    <div class="mt-5 h3 text-center text-light">
                         時間到！沒有通關！
                     </div>
                 </div>
+            </div>
+            <div class="row justify-content-center">
                 <div class="col-12">
                     <div class="h3 text-center mt-4">
                         <button type="button" id="playAgain2" class="btn-lg btn-light">重玩一次</button>
